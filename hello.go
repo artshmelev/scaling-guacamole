@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // Hello returns hello string
@@ -23,6 +24,7 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/hello", HelloHandler)
+	r.Path("/metrics").Handler(promhttp.Handler())
 
 	srv := &http.Server{
 		Handler:      r,
